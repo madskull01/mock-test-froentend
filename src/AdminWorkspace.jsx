@@ -5,8 +5,12 @@ import {
   CircleHelp,
   FilePlus2,
   Layers3,
+  LoaderCircle,
+  Mail,
   Plus,
+  Search,
   ShieldCheck,
+  Users,
 } from "lucide-react";
 import { apiRequest } from "./api";
 
@@ -20,6 +24,10 @@ export default function AdminWorkspace({ onCatalogChanged }) {
   const [subjects, setSubjects] = useState([]);
   const [tests, setTests] = useState([]);
   const [questions, setQuestions] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [userPayments, setUserPayments] = useState([]);
+  const [usersLoaded, setUsersLoaded] = useState(false);
+  const [userSearch, setUserSearch] = useState("");
   const [selectedSubjectId, setSelectedSubjectId] = useState("");
   const [selectedQuestionIds, setSelectedQuestionIds] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -46,6 +54,41 @@ export default function AdminWorkspace({ onCatalogChanged }) {
       setError(requestError.message || "Could not load admin data.");
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function toggleTestFreeAccess(test) {
+    setSaving(true);
+    setError("");
+    setNotice("");
+    try {
+      const updatedTest = await apiRequest(`/api/mock-tests/${test.id}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          title: test.title,
+          description: test.description,
+          durationMinutes: test.durationMinutes,
+          totalMarks: test.totalMarks,
+          passingMarks: test.passingMarks,
+          active: test.active,
+          freeAccess: !test.freeAccess,
+        }),
+      });
+      setTests((current) =>
+        current.map((item) =>
+          item.id === updatedTest.id ? updatedTest : item,
+        ),
+      );
+      setNotice(
+        updatedTest.freeAccess
+          ? `“${updatedTest.title}” is now free for everyone.`
+          : `“${updatedTest.title}” now requires section access.`,
+      );
+      await onCatalogChanged();
+    } catch (requestError) {
+      setError(requestError.message || "Could not update test access.");
+    } finally {
+      setSaving(false);
     }
   }
 
@@ -94,6 +137,42 @@ export default function AdminWorkspace({ onCatalogChanged }) {
       isCurrent = false;
     };
   }, [selectedSubjectId]);
+
+  useEffect(() => {
+    if (view !== "users" || usersLoaded) return undefined;
+    let isCurrent = true;
+    Promise.all([
+      apiRequest("/api/users"),
+      apiRequest("/api/payments/admin/history"),
+    ])
+      .then(([userData, paymentData]) => {
+        if (!isCurrent) return;
+        setUsers(userData);
+        setUserPayments(paymentData);
+      })
+      .catch((requestError) => {
+        if (isCurrent) {
+          setError(requestError.message || "Could not load user details.");
+        }
+      })
+      .finally(() => {
+        if (isCurrent) setUsersLoaded(true);
+      });
+    return () => {
+      isCurrent = false;
+    };
+  }, [view, usersLoaded]);
+
+  const filteredUsers = useMemo(() => {
+    const normalizedSearch = userSearch.trim().toLowerCase();
+    if (!normalizedSearch) return users;
+    return users.filter(
+      (user) =>
+        user.name.toLowerCase().includes(normalizedSearch) ||
+        user.email.toLowerCase().includes(normalizedSearch) ||
+        String(user.id).includes(normalizedSearch),
+    );
+  }, [users, userSearch]);
 
   const selectedQuestions = useMemo(
     () =>
@@ -171,23 +250,45 @@ export default function AdminWorkspace({ onCatalogChanged }) {
     setError("");
     setNotice("");
     try {
-      const question = await apiRequest(
+      const questionPayload = {
+        questionText: formData.get("questionText"),
+        explanation: formData.get("explanation"),
+        marks: Number(formData.get("marks")),
+        negativeMarks: Number(formData.get("negativeMarks")),
+        difficulty: formData.get("difficulty"),
+        options,
+      };
+      const image = formData.get("image");
+      let question;
+      if (image instanceof File && image.size > 0) {
+        const multipartData = new FormData();
+        multipartData.append(
+          "question",
+          new Blob([JSON.stringify(questionPayload)], {
+            type: "application/json",
+          }),
+        );
+        multipartData.append("image", image);
+        question = await apiRequest(
+          `/api/questions/subjects/${selectedSubjectId}`,
+          { method: "POST", body: multipartData },
+        );
+      } else {
+        question = await apiRequest(
         `/api/questions/subjects/${selectedSubjectId}`,
         {
           method: "POST",
-          body: JSON.stringify({
-            questionText: formData.get("questionText"),
-            explanation: formData.get("explanation"),
-            marks: Number(formData.get("marks")),
-            negativeMarks: Number(formData.get("negativeMarks")),
-            difficulty: formData.get("difficulty"),
-            options,
-          }),
+          body: JSON.stringify(questionPayload),
         },
       );
+      }
       setQuestions((current) => [...current, question]);
       form.reset();
-      setNotice("Question added to the selected subject.");
+      setNotice(
+        image instanceof File && image.size > 0
+          ? "Question and image added to the selected subject."
+          : "Question added to the selected subject.",
+      );
     } catch (requestError) {
       setError(requestError.message || "Could not create the question.");
     } finally {
@@ -215,6 +316,7 @@ export default function AdminWorkspace({ onCatalogChanged }) {
           durationMinutes: Number(formData.get("durationMinutes")),
           totalMarks: Number(formData.get("totalMarks")),
           passingMarks: Number(formData.get("passingMarks")),
+          freeAccess: formData.get("freeAccess") === "on",
         }),
       });
       for (const [index, question] of selectedQuestions.entries()) {
@@ -267,7 +369,7 @@ export default function AdminWorkspace({ onCatalogChanged }) {
             test.
           </p>
         </div>
-        <div className="flex rounded-full border border-[#e1e7df] bg-white p-1">
+        <div className="flex flex-wrap rounded-full border border-[#e1e7df] bg-white p-1">
           <AdminTab
             active={view === "subjects"}
             onClick={() => setView("subjects")}
@@ -276,6 +378,9 @@ export default function AdminWorkspace({ onCatalogChanged }) {
           </AdminTab>
           <AdminTab active={view === "tests"} onClick={() => setView("tests")}>
             <FilePlus2 size={14} /> Mock tests
+          </AdminTab>
+          <AdminTab active={view === "users"} onClick={() => setView("users")}>
+            <Users size={14} /> Users
           </AdminTab>
         </div>
       </div>
@@ -295,6 +400,15 @@ export default function AdminWorkspace({ onCatalogChanged }) {
         <div className="rounded-xl border border-[#e5eae3] bg-white px-5 py-12 text-center text-[12px] font-semibold text-[#7d8981]">
           Loading admin workspace…
         </div>
+      ) : view === "users" ? (
+        <UsersDirectory
+          users={filteredUsers}
+          allUsers={users}
+          payments={userPayments}
+          search={userSearch}
+          onSearch={setUserSearch}
+          isLoading={!usersLoaded}
+        />
       ) : view === "subjects" ? (
         <div className="grid gap-5 xl:grid-cols-[0.8fr_1.2fr]">
           <div className="space-y-5">
@@ -428,6 +542,21 @@ export default function AdminWorkspace({ onCatalogChanged }) {
                   className="w-full resize-y rounded-lg border border-[#e1e7df] bg-white px-3 py-2.5 text-[12px] outline-none focus:border-[#80964c] focus:ring-2 focus:ring-[#d8f270]/50"
                 />
               </label>
+              <label className="block">
+                <span className={labelClass}>
+                  Question image{" "}
+                  <span className="font-medium text-[#9ba49d]">(optional)</span>
+                </span>
+                <input
+                  name="image"
+                  type="file"
+                  accept="image/png,image/jpeg,image/gif"
+                  className="block w-full rounded-lg border border-[#e1e7df] bg-white px-3 py-2 text-[11px] text-[#69776e] file:mr-3 file:rounded-md file:border-0 file:bg-[#eef3e8] file:px-3 file:py-1.5 file:text-[10px] file:font-bold file:text-[#536c40]"
+                />
+                <span className="mt-1 block text-[9px] text-[#89958c]">
+                  PNG, JPEG, or GIF · up to 5 MB
+                </span>
+              </label>
               <div className="grid gap-3 sm:grid-cols-2">
                 {[1, 2, 3, 4].map((number) => (
                   <label key={number} className="block">
@@ -549,6 +678,22 @@ export default function AdminWorkspace({ onCatalogChanged }) {
                   placeholder="A brief description for students"
                   className="w-full resize-y rounded-lg border border-[#e1e7df] bg-white px-3 py-2.5 text-[12px] outline-none focus:border-[#80964c] focus:ring-2 focus:ring-[#d8f270]/50"
                 />
+              </label>
+              <label className="flex items-start gap-2.5 rounded-lg border border-[#e7ece5] bg-[#fafbf9] p-3">
+                <input
+                  name="freeAccess"
+                  type="checkbox"
+                  className="mt-0.5 accent-[#526c40]"
+                />
+                <span>
+                  <span className="block text-[11px] font-bold text-[#3d4c42]">
+                    Free for everyone
+                  </span>
+                  <span className="mt-0.5 block text-[10px] leading-4 text-[#89958c]">
+                    Students can start this test without purchasing section
+                    access.
+                  </span>
+                </span>
               </label>
               <div className="grid gap-3 sm:grid-cols-3">
                 <label className="block">
@@ -677,24 +822,41 @@ export default function AdminWorkspace({ onCatalogChanged }) {
             </div>
             <div className="rounded-xl border border-[#e5eae3] bg-white p-5">
               <p className="mb-3 text-[9px] font-bold uppercase tracking-[1.3px] text-[#98a19a]">
-                Recently created tests
+                Test access settings
               </p>
-              {tests.slice(0, 5).length ? (
+              {tests.length ? (
                 <ul className="space-y-3">
-                  {tests.slice(0, 5).map((test) => (
-                    <li key={test.id} className="flex items-start gap-2.5">
-                      <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-md bg-[#eef3e8] text-[#698252]">
-                        <BookOpen size={13} />
-                      </span>
-                      <span className="min-w-0">
-                        <span className="block truncate text-[11px] font-bold text-[#3d4b42]">
-                          {test.title}
+                  {tests.map((test) => (
+                    <li
+                      key={test.id}
+                      className="flex items-start justify-between gap-2.5"
+                    >
+                      <span className="flex min-w-0 items-start gap-2.5">
+                        <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-md bg-[#eef3e8] text-[#698252]">
+                          <BookOpen size={13} />
                         </span>
-                        <span className="mt-0.5 block text-[9px] text-[#929d94]">
-                          {test.durationMinutes} min · {test.questionCount ?? 0}{" "}
-                          questions
+                        <span className="min-w-0">
+                          <span className="block truncate text-[11px] font-bold text-[#3d4b42]">
+                            {test.title}
+                          </span>
+                          <span className="mt-0.5 block text-[9px] text-[#929d94]">
+                            {test.durationMinutes} min ·{" "}
+                            {test.questionCount ?? 0} questions
+                          </span>
                         </span>
                       </span>
+                      <button
+                        type="button"
+                        disabled={saving}
+                        onClick={() => toggleTestFreeAccess(test)}
+                        className={`shrink-0 rounded-full px-2.5 py-1 text-[9px] font-bold disabled:opacity-50 ${
+                          test.freeAccess
+                            ? "bg-[#eaf3dc] text-[#536c40]"
+                            : "border border-[#e1e7df] text-[#69766f] hover:bg-[#fafbf9]"
+                        }`}
+                      >
+                        {test.freeAccess ? "Free · Change" : "Make free"}
+                      </button>
                     </li>
                   ))}
                 </ul>
@@ -712,6 +874,186 @@ export default function AdminWorkspace({ onCatalogChanged }) {
         </div>
       )}
     </section>
+  );
+}
+
+function UsersDirectory({
+  users,
+  allUsers,
+  payments,
+  search,
+  onSearch,
+  isLoading,
+}) {
+  const studentCount = allUsers.filter(
+    (user) => user.role === "STUDENT",
+  ).length;
+  const adminCount = allUsers.filter((user) => user.role === "ADMIN").length;
+
+  return (
+    <div className="space-y-5">
+      <div className="grid gap-3 sm:grid-cols-3">
+        <UserSummary label="Total accounts" value={allUsers.length} />
+        <UserSummary label="Student accounts" value={studentCount} />
+        <UserSummary label="Admin accounts" value={adminCount} />
+      </div>
+      <section className="overflow-hidden rounded-xl border border-[#e5eae3] bg-white">
+        <div className="flex flex-col gap-3 border-b border-[#edf0eb] p-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h2 className="font-display text-[16px] font-extrabold text-[#26342b]">
+              User details
+            </h2>
+            <p className="mt-1 text-[10px] text-[#8b968e]">
+              Names, email addresses, roles, and account status.
+            </p>
+          </div>
+          <label className="relative block w-full sm:max-w-[300px]">
+            <Search
+              size={15}
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-[#9ba49d]"
+            />
+            <input
+              value={search}
+              onChange={(event) => onSearch(event.target.value)}
+              placeholder="Search name, email, or ID"
+              aria-label="Search users"
+              className="h-10 w-full rounded-lg border border-[#e1e7df] bg-white pl-9 pr-3 text-[11px] outline-none focus:border-[#80964c]"
+            />
+          </label>
+        </div>
+        {isLoading ? (
+          <div className="flex min-h-[180px] items-center justify-center gap-2 text-[12px] font-semibold text-[#7d8981]">
+            <LoaderCircle size={16} className="animate-spin" />
+            Loading users…
+          </div>
+        ) : users.length ? (
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[650px] text-left">
+              <thead className="bg-[#fafbf9] text-[9px] font-bold uppercase tracking-[1px] text-[#8b968e]">
+                <tr>
+                  <th className="px-5 py-3">User</th>
+                  <th className="px-5 py-3">Email address</th>
+                  <th className="px-5 py-3">Role</th>
+                  <th className="px-5 py-3">Status</th>
+                  <th className="px-5 py-3">Purchases and payments</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#f0f2ef]">
+                {users.map((user) => (
+                  <tr key={user.id} className="text-[11px] text-[#59685e]">
+                    <td className="px-5 py-3.5">
+                      <span className="flex items-center gap-2.5">
+                        <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-[#eef3e8] text-[10px] font-bold uppercase text-[#607c4c]">
+                          {user.name.trim().charAt(0) || "?"}
+                        </span>
+                        <span className="font-bold text-[#3d4b42]">
+                          {user.name}
+                        </span>
+                      </span>
+                    </td>
+                    <td className="px-5 py-3.5">
+                      <span className="inline-flex items-center gap-1.5">
+                        <Mail size={13} className="text-[#9ba49d]" />
+                        {user.email}
+                      </span>
+                    </td>
+                    <td className="px-5 py-3.5">
+                      <span className="rounded-full bg-[#f0f3ee] px-2.5 py-1 text-[9px] font-bold text-[#59685e]">
+                        {user.role}
+                      </span>
+                    </td>
+                    <td className="px-5 py-3.5">
+                      <span
+                        className={`rounded-full px-2.5 py-1 text-[9px] font-bold ${
+                          user.enabled
+                            ? "bg-[#eaf3dc] text-[#536c40]"
+                            : "bg-[#fff0eb] text-[#a6533e]"
+                        }`}
+                      >
+                        {user.enabled ? "Active" : "Disabled"}
+                      </span>
+                    </td>
+                    <td className="px-5 py-3.5">
+                      <UserPaymentSummary
+                        payments={payments.filter(
+                          (payment) => payment.userId === user.id,
+                        )}
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="px-5 py-12 text-center">
+            <p className="text-[12px] font-semibold text-[#59685e]">
+              {search ? "No users match your search." : "No users found."}
+            </p>
+            {!search && (
+              <p className="mt-1 text-[10px] text-[#8b968e]">
+                User accounts will appear here when they register.
+              </p>
+            )}
+          </div>
+        )}
+      </section>
+    </div>
+  );
+}
+
+function UserPaymentSummary({ payments }) {
+  if (!payments.length) {
+    return <span className="text-[10px] text-[#929d94]">No purchases</span>;
+  }
+
+  return (
+    <ul className="space-y-2">
+      {payments.map((payment) => (
+        <li key={payment.id} className="flex items-start gap-2">
+          <span
+            className={`mt-0.5 rounded-full px-2 py-0.5 text-[8px] font-bold ${
+              payment.status === "PAID"
+                ? "bg-[#eaf3dc] text-[#536c40]"
+                : payment.status === "FAILED"
+                  ? "bg-[#fff0eb] text-[#a6533e]"
+                  : "bg-[#fff6df] text-[#97712e]"
+            }`}
+          >
+            {payment.status}
+          </span>
+          <span className="min-w-0">
+            <span className="block text-[10px] font-bold text-[#3d4b42]">
+              {payment.packageName}
+            </span>
+            <span className="mt-0.5 block text-[9px] text-[#929d94]">
+              {new Intl.NumberFormat("en-IN", {
+                style: "currency",
+                currency: payment.currency || "INR",
+              }).format((payment.amountInPaise ?? 0) / 100)}
+              {payment.createdAt
+                ? ` · ${new Intl.DateTimeFormat("en-IN", {
+                    dateStyle: "medium",
+                  }).format(new Date(payment.createdAt))}`
+                : ""}
+            </span>
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function UserSummary({ label, value }) {
+  return (
+    <div className="rounded-xl border border-[#e5eae3] bg-white p-4">
+      <p className="text-[9px] font-bold uppercase tracking-[1px] text-[#929d94]">
+        {label}
+      </p>
+      <p className="mt-1 font-display text-[24px] font-extrabold text-[#26342b]">
+        {value}
+      </p>
+    </div>
   );
 }
 

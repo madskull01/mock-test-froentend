@@ -1,5 +1,37 @@
 # React + Vite
 
+## Google sign-in
+
+Create an OAuth 2.0 client ID of type **Web application** in Google Cloud
+Console and add the app's development and production origins to its authorized
+JavaScript origins (for local Vite development, `http://localhost:5173`).
+Google Identity Services returns an ID token to the frontend; the backend
+validates its signature, issuer, audience, expiration, and verified email before
+creating a Formative session.
+
+Set the same web client ID in both places:
+
+- Backend environment: `GOOGLE_CLIENT_ID`
+- Frontend environment: `VITE_GOOGLE_CLIENT_ID` (copy
+  `.env.example` to `.env.local`)
+
+The repository-root `.env` is read by the backend, not by Vite. The frontend
+must have its own `.env.local`; never put `GOOGLE_CLIENT_SECRET` in a frontend
+environment file. This Google Identity Services ID-token flow does not use the
+client secret or a redirect URI. Add the exact frontend origin you use to the
+OAuth client's authorized JavaScript origins. For the current local browser
+URL, that is `http://127.0.0.1:5190` (origins using `localhost` are distinct).
+Restart both servers after changing environment values.
+
+## Subject sections
+
+Active subjects are grouped by their assigned Section A, Section B, or Section C
+on the landing page and in the test-library filters. On backend startup, an
+empty section catalog is initialized with all three groups. The existing
+single-section catalog named `Aptitude` is migrated to Section A, preserving
+its subjects; Sections B and C are then created for future subjects. Other
+custom section catalogs are left unchanged.
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
