@@ -400,7 +400,7 @@ function App() {
         key: order.keyId,
         amount: order.amount,
         currency: order.currency,
-        name: "Formative",
+        name: "cdacmocktest",
         description: order.packageName,
         order_id: order.orderId,
         prefill: {
@@ -630,7 +630,7 @@ function App() {
               <Command size={20} strokeWidth={2.5} />
             </span>
             <span className="font-display text-[20px] font-extrabold">
-              formative<span className="text-[#d8f270]">.</span>
+              cdacmocktest
             </span>
           </a>
           <p className="mb-3 px-3 text-[10px] font-bold uppercase tracking-[1.7px] text-white/35">

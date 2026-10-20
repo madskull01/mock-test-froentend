@@ -129,7 +129,7 @@ export function PricingPlans({
           </p>
           <p className="mt-1 text-[10px] leading-5 text-[#89948c]">
             Cards, UPI and other payment options shown in checkout depend on
-            your Razorpay account configuration. Formative never receives or
+            your Razorpay account configuration. cdacmocktest never receives or
             stores your card details.
           </p>
         </div>

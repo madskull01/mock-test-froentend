@@ -66,14 +66,14 @@ export function LandingPage({
         <div className="mx-auto flex h-[72px] max-w-[1240px] items-center justify-between px-5 sm:px-8">
           <a
             href="#home"
-            aria-label="Formative home"
+            aria-label="cdacmocktest home"
             className="flex items-center gap-2.5 no-underline"
           >
             <span className="grid h-9 w-9 place-items-center rounded-xl bg-[#17221f] text-[#d8f270]">
               <Command size={19} strokeWidth={2.5} />
             </span>
             <span className="font-display text-[19px] font-extrabold tracking-[-0.8px]">
-              formative<span className="text-[#8ca34e]">.</span>
+              cdacmocktest
             </span>
           </a>
           <nav
@@ -638,7 +638,7 @@ export function LandingPage({
               Questions, answered.
             </h2>
             <p className="mt-3 max-w-[360px] text-[12px] leading-6 text-[#7b887f]">
-              Learn a little more about practicing with Formative.
+              Learn a little more about practicing with cdacmocktest.
             </p>
           </div>
           <div className="divide-y divide-[#edf0eb] border-y border-[#edf0eb]">
@@ -674,14 +674,14 @@ export function LandingPage({
         <div className="mx-auto flex max-w-[1240px] flex-col gap-7 px-5 py-8 sm:px-8 md:flex-row md:items-center md:justify-between">
           <a
             href="#home"
-            aria-label="Formative home"
+            aria-label="cdacmocktest home"
             className="flex items-center gap-2.5 text-white no-underline"
           >
             <span className="grid h-8 w-8 place-items-center rounded-lg bg-[#d8f270] text-[#17221f]">
               <Command size={16} strokeWidth={2.5} />
             </span>
             <span className="font-display text-[16px] font-extrabold">
-              formative<span className="text-[#d8f270]">.</span>
+              cdacmocktest
             </span>
           </a>
           <nav className="flex flex-wrap gap-x-6 gap-y-2 text-[10px] font-semibold text-white/55" aria-label="Footer navigation">

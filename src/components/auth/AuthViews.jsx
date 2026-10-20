@@ -185,7 +185,7 @@ export function LoginPage({
             <Command size={20} strokeWidth={2.5} />
           </span>
           <span className="font-display text-[20px] font-extrabold">
-            formative<span className="text-[#d8f270]">.</span>
+            cdacmocktest
           </span>
         </a>
         <div className="relative z-10 max-w-[520px] pb-8">
@@ -207,7 +207,7 @@ export function LoginPage({
           </div>
         </div>
         <p className="relative z-10 text-[10px] text-white/45">
-          Formative learning space · 2026
+          cdacmocktest learning space · 2026
         </p>
       </section>
 
@@ -221,7 +221,7 @@ export function LoginPage({
               <Command size={18} />
             </span>
             <span className="font-display text-[17px] font-extrabold">
-              formative.
+              cdacmocktest
             </span>
           </a>
           <div className="flex items-center gap-3">
@@ -247,7 +247,7 @@ export function LoginPage({
               Welcome back
             </p>
             <h2 className="font-display text-[29px] font-extrabold tracking-[-1px] text-[#1d2a23]">
-              Sign in to Formative
+              Sign in to cdacmocktest
             </h2>
             <p className="mt-2 text-[12px] leading-5 text-[#7f8c83]">
               Pick up right where your learning left off.
@@ -366,7 +366,7 @@ export function LoginPage({
           </p>
         </div>
         <p className="text-center text-[9px] text-[#a2aaa3]">
-          © 2026 Formative. Learn at your own pace.
+          © 2026 cdacmocktest. Learn at your own pace.
         </p>
       </section>
     </main>

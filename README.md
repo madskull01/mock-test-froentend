@@ -7,13 +7,19 @@ Console and add the app's development and production origins to its authorized
 JavaScript origins (for local Vite development, `http://localhost:5173`).
 Google Identity Services returns an ID token to the frontend; the backend
 validates its signature, issuer, audience, expiration, and verified email before
-creating a Formative session.
+creating a cdacmocktest session.
 
 Set the same web client ID in both places:
 
 - Backend environment: `GOOGLE_CLIENT_ID`
 - Frontend environment: `VITE_GOOGLE_CLIENT_ID` (copy
   `.env.example` to `.env.local`)
+
+The production frontend client ID is configured in `.env.production`. The
+Google web client must have the deployed site's exact origin,
+`https://profound-dolphin-979043.netlify.app`, in its authorized JavaScript
+origins. The client ID is public browser configuration; never put the client
+secret in a frontend file.
 
 The repository-root `.env` is read by the backend, not by Vite. The frontend
 must have its own `.env.local`; never put `GOOGLE_CLIENT_SECRET` in a frontend
@@ -22,6 +28,15 @@ client secret or a redirect URI. Add the exact frontend origin you use to the
 OAuth client's authorized JavaScript origins. For the current local browser
 URL, that is `http://127.0.0.1:5190` (origins using `localhost` are distinct).
 Restart both servers after changing environment values.
+
+## Local backend
+
+For local development, leave `VITE_API_BASE_URL` unset. Vite proxies API and
+uploaded-image requests to the backend at `http://localhost:8080`. If you open
+the hosted Netlify frontend while running the backend locally on the same
+computer, add the exact Netlify origin (without a trailing slash) to the
+backend's `CORS_ALLOWED_ORIGINS`. This only makes requests possible from that
+computer; other Netlify visitors cannot access your local backend.
 
 ## Subject sections
 
