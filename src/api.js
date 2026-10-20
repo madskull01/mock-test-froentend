@@ -1,8 +1,14 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "";
+const configuredApiBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim();
+const productionApiBaseUrl =
+  "https://mocktest-backend-26c22.containers.snapdeploy.app";
+const API_BASE_URL = (
+  configuredApiBaseUrl ||
+  (import.meta.env.PROD ? productionApiBaseUrl : "")
+).replace(/\/+$/, "");
 const USER_STORAGE_KEY = "formative.user";
 
 export function resolveApiUrl(path) {
-  return `${API_BASE_URL.replace(/\/$/, "")}${path}`;
+  return `${API_BASE_URL}${path}`;
 }
 
 export async function apiRequest(path, options = {}) {
@@ -13,7 +19,7 @@ export async function apiRequest(path, options = {}) {
     token = undefined;
   }
 
-  const response = await fetch(`${API_BASE_URL}${path}`, {
+  const response = await fetch(resolveApiUrl(path), {
     ...options,
     headers: {
       ...(options.body && !(options.body instanceof FormData)
