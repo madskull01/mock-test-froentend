@@ -49,6 +49,16 @@ custom section catalogs are left unchanged.
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
+## SnapDeploy backend
+
+Deploy the backend's `mocktest` folder as a native Java 21 service on SnapDeploy.
+After SnapDeploy assigns the API a public URL, set Netlify's `VITE_API_BASE_URL`
+to `https://<snapdeploy-api-domain>` without a trailing slash, then redeploy
+the Netlify site. Configure the backend's `CORS_ALLOWED_ORIGINS` with the
+exact Netlify and custom-domain origins. Keep database credentials and all
+other backend secrets in SnapDeploy, not in this frontend or its environment
+files. See the backend `HELP.md` for the build and start commands.
+
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
