@@ -108,9 +108,10 @@ function App() {
   }, [theme]);
 
   useEffect(() => {
-    const seoTitle = "CDAC Mock Test 2026 | Practice Aptitude, CSE & Electronics";
+    const seoTitle =
+      "CDAC C-CAT Mock Test | Aptitude, Computer Science & Electronics";
     const seoDescription =
-      "Prepare for CDAC online mock tests with aptitude, computer science, and hardware practice papers, timed exams, and subject-wise progress tracking.";
+      "Prepare for the CDAC C-CAT with online mock tests and practice in general aptitude, computer science and programming, and hardware and electronics. Track your attempts and progress.";
 
     document.title = seoTitle;
 

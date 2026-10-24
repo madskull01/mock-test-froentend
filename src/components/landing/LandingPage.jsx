@@ -43,19 +43,34 @@ export function LandingPage({
   const subjectGroups = groupSubjectsBySection(subjects, sections);
   const faqs = [
     {
-      question: "How do I get started?",
+      question: "What is the CDAC C-CAT mock test platform?",
       answer:
-        "Create a student profile, choose an available practice test, and start when you are ready. Your answers and results are saved to your account.",
+        "It is an online practice platform for candidates preparing for the CDAC C-CAT. Browse the tests currently published in the practice library, create a student profile, and review your saved results.",
     },
     {
-      question: "Can I see my answers after a test?",
+      question: "What are Sections A, B, and C in CDAC C-CAT preparation?",
+      answer:
+        "Section A covers general aptitude and fundamentals. Section B covers computer science and programming and is relevant to many Category II and III programs. Section C covers hardware and electronics and is relevant to some Category III programs. Check the current official CDAC admission information for the requirements of your chosen program.",
+    },
+    {
+      question: "What subjects can I practice for the CDAC C-CAT?",
+      answer:
+        "Subjects are organized into the sections configured in the live practice library. They may include aptitude, computer science, programming, hardware, or electronics; availability depends on what is currently published.",
+    },
+    {
+      question: "How do I take a CDAC mock test?",
+      answer:
+        "Choose an available test from the practice library and create an account or sign in to begin. Your attempt and result are saved to your account.",
+    },
+    {
+      question: "Are these official CDAC exam papers?",
+      answer:
+        "No. This is an independent practice platform, not an official CDAC website. Use current official CDAC admission notices to confirm the latest exam pattern and program requirements.",
+    },
+    {
+      question: "Can I review my score after submitting a test?",
       answer:
         "Completed tests include a result summary. Answer review is available after submission when enabled for that test.",
-    },
-    {
-      question: "What subjects can I practice?",
-      answer:
-        "The subject list reflects the currently active subjects configured on this platform. New practice material appears as it is published.",
     },
   ];
 
@@ -84,6 +99,7 @@ export function LandingPage({
           >
             <a className="landing-nav-link" href="#home">Home</a>
             <a className="landing-nav-link" href="#practice">Tests</a>
+            <a className="landing-nav-link" href="#exam-sections">Exam sections</a>
             <a className="landing-nav-link" href="#subjects">Subjects</a>
             <a className="landing-nav-link" href="#pricing">Pricing</a>
             <a className="landing-nav-link" href="#free-demo">Free demo</a>
@@ -124,6 +140,7 @@ export function LandingPage({
             {[
               ["Home", "#home"],
               ["Tests", "#practice"],
+              ["Exam sections", "#exam-sections"],
               ["Subjects", "#subjects"],
               ["Pricing", "#pricing"],
               ["Free demo", "#free-demo"],
@@ -161,17 +178,18 @@ export function LandingPage({
             <div className="hero-enter">
               <div className="inline-flex items-center gap-2 rounded-full border border-[#dfe7d7] bg-white/80 px-3.5 py-2 text-[10px] font-bold uppercase tracking-[1.35px] text-[#61764a] shadow-sm">
                 <Sparkles size={13} />
-                A calmer way to prepare
+                CDAC C-CAT practice
               </div>
               <h1 className="mt-6 max-w-[640px] font-display text-[42px] font-extrabold leading-[1.08] tracking-[-2.6px] text-[#17221f] sm:text-[58px] lg:text-[68px]">
-                Every great result starts with{" "}
+                Prepare for the CDAC C-CAT with{" "}
                 <span className="relative whitespace-nowrap text-[#718a42]">
-                  one question.
+                  focused mock tests.
                 </span>
               </h1>
               <p className="mt-5 max-w-[520px] text-[15px] leading-7 text-[#69766e] sm:text-[16px]">
-                Build confidence one practice session at a time. Find focused
-                mock tests, track your results, and learn from every attempt.
+                Practice general aptitude, computer science and programming,
+                and hardware and electronics. Take available online mock tests,
+                track your results, and decide what to study next.
               </p>
               <div className="mt-7 flex flex-wrap gap-3">
                 <button
@@ -400,6 +418,72 @@ export function LandingPage({
               Active subjects will appear here when they are published.
             </div>
           )}
+        </section>
+
+        <section
+          id="exam-sections"
+          className="border-y border-[#e8ece5] bg-white"
+          aria-labelledby="exam-sections-heading"
+        >
+          <div className="mx-auto max-w-[1240px] px-5 py-16 sm:px-8 lg:py-20">
+            <div className="max-w-[760px]">
+              <p className="text-[10px] font-bold uppercase tracking-[1.8px] text-[#82906f]">
+                CDAC C-CAT preparation
+              </p>
+              <h2
+                id="exam-sections-heading"
+                className="mt-2 font-display text-[28px] font-extrabold tracking-[-1px] sm:text-[34px]"
+              >
+                Prepare by CDAC C-CAT section
+              </h2>
+              <p className="mt-3 text-[13px] leading-6 text-[#7b887f]">
+                Use section-wise practice to focus your preparation. Program
+                eligibility and the current exam pattern can vary, so confirm
+                the requirements in the latest official CDAC admission notice.
+              </p>
+            </div>
+            <div className="mt-8 grid gap-4 md:grid-cols-3">
+              {[
+                {
+                  label: "Section A",
+                  title: "General Aptitude & Fundamentals",
+                  description:
+                    "Build a foundation in general aptitude and fundamentals. This section is common across candidate test papers.",
+                },
+                {
+                  label: "Section B",
+                  title: "Computer Science & Programming",
+                  description:
+                    "Practice computer science and programming topics for relevant Category II and Category III programs, such as Advanced Computing, Big Data, AI, and ITISS.",
+                },
+                {
+                  label: "Section C",
+                  title: "Hardware & Electronics",
+                  description:
+                    "Focus on hardware and electronics topics for relevant Category III programs, such as Embedded Systems Design and VLSI Design.",
+                },
+              ].map(({ label, title, description }) => (
+                <article
+                  key={label}
+                  className="rounded-2xl border border-[#e7ebe4] bg-[#fbfcf9] p-5"
+                >
+                  <p className="text-[10px] font-bold uppercase tracking-[1.5px] text-[#718a42]">
+                    {label}
+                  </p>
+                  <h3 className="mt-3 font-display text-[16px] font-extrabold text-[#26352d]">
+                    {title}
+                  </h3>
+                  <p className="mt-2 text-[12px] leading-6 text-[#7b887f]">
+                    {description}
+                  </p>
+                </article>
+              ))}
+            </div>
+            <p className="mt-5 text-[11px] leading-5 text-[#89948c]">
+              CDAC Mock Test is an independent practice platform and is not
+              affiliated with or endorsed by CDAC.
+            </p>
+          </div>
         </section>
 
         <section id="practice" className="bg-[#edf1e9]">
