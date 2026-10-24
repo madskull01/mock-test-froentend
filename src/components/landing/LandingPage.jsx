@@ -45,7 +45,7 @@ export function LandingPage({
     {
       question: "What is the CDAC C-CAT mock test platform?",
       answer:
-        "It is an online practice platform for candidates preparing for the CDAC C-CAT. Browse the tests currently published in the practice library, create a student profile, and review your saved results.",
+        "It is an online practice platform for candidates preparing for the CDAC C-CAT. Browse the currently available free CDAC mock test in the practice library, create a student profile, and review your saved results. Paid section packages are also available.",
     },
     {
       question: "What are Sections A, B, and C in CDAC C-CAT preparation?",
@@ -58,9 +58,14 @@ export function LandingPage({
         "Subjects are organized into the sections configured in the live practice library. They may include aptitude, computer science, programming, hardware, or electronics; availability depends on what is currently published.",
     },
     {
+      question: "Are free CDAC mock tests available?",
+      answer:
+        "Yes. At least one full CDAC mock test is available to take for free. Create a student account or sign in to start a free CDAC mock test. Additional section packages may require payment; check the pricing section for current details.",
+    },
+    {
       question: "How do I take a CDAC mock test?",
       answer:
-        "Choose an available test from the practice library and create an account or sign in to begin. Your attempt and result are saved to your account.",
+        "Choose a free CDAC mock test or another available practice test from the library and create an account or sign in to begin. Your attempt and result are saved to your account.",
     },
     {
       question: "Are these official CDAC exam papers?",
@@ -181,14 +186,14 @@ export function LandingPage({
                 CDAC C-CAT practice
               </div>
               <h1 className="mt-6 max-w-[640px] font-display text-[42px] font-extrabold leading-[1.08] tracking-[-2.6px] text-[#17221f] sm:text-[58px] lg:text-[68px]">
-                Prepare for the CDAC C-CAT with{" "}
+                Prepare for CDAC C-CAT with a free mock test and{" "}
                 <span className="relative whitespace-nowrap text-[#718a42]">
-                  focused mock tests.
+                  focused practice.
                 </span>
               </h1>
               <p className="mt-5 max-w-[520px] text-[15px] leading-7 text-[#69766e] sm:text-[16px]">
                 Practice general aptitude, computer science and programming,
-                and hardware and electronics. Take available online mock tests,
+                and hardware and electronics. Start the free CDAC mock test,
                 track your results, and decide what to study next.
               </p>
               <div className="mt-7 flex flex-wrap gap-3">
@@ -651,22 +656,22 @@ export function LandingPage({
           <div className="mx-auto grid max-w-[1240px] gap-7 px-5 py-12 sm:px-8 md:grid-cols-[1fr_auto] md:items-center lg:py-14">
             <div>
               <p className="text-[10px] font-bold uppercase tracking-[1.8px] text-[#82906f]">
-                Try a practice session
+                Free CDAC mock test practice
               </p>
               <h2 className="mt-2 font-display text-[23px] font-extrabold tracking-[-0.7px] sm:text-[28px]">
-                Start with a test that fits your goals.
+                Start with a free CDAC mock test.
               </h2>
               <p className="mt-2 max-w-[680px] text-[12px] leading-6 text-[#7b887f]">
                 {tests.length
-                  ? "Explore the currently published practice tests. Sign in or create a student account to begin an attempt."
-                  : "A free demo test has not been published yet. Check the practice library for currently available tests."}
+                  ? "A free CDAC mock test is available in the practice library. Create a student account or sign in to begin. Additional section packages may be paid; see pricing for current details."
+                  : "No CDAC mock tests are available right now. Check back later for free practice tests and other published tests."}
               </p>
             </div>
             <button
               onClick={onExplore}
               className="inline-flex items-center justify-center gap-2 rounded-full bg-[#17221f] px-5 py-3 text-[11px] font-bold text-white transition hover:bg-[#304238]"
             >
-              {tests.length ? "Explore available tests" : "View practice library"}
+              {tests.length ? "Browse CDAC mock tests" : "View practice library"}
               <ArrowRight size={14} />
             </button>
           </div>
