@@ -109,9 +109,9 @@ function App() {
 
   useEffect(() => {
     const seoTitle =
-      "CDAC C-CAT Mock Test | Aptitude, Computer Science & Electronics";
+      "CDAC C-CAT Mock Test Online | Practice MCQs";
     const seoDescription =
-      "Prepare for the CDAC C-CAT with online mock tests and practice in general aptitude, computer science and programming, and hardware and electronics. Track your attempts and progress.";
+      "Prepare for the CDAC C-CAT with available online mock tests in aptitude, computer science, programming, hardware and electronics. Track attempts and review results.";
 
     document.title = seoTitle;
 
