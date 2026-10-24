@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
   Check,
-  Command,
   Eye,
   EyeOff,
   GraduationCap,
@@ -179,13 +178,17 @@ export function LoginPage({
         <div className="absolute inset-0 bg-gradient-to-br from-[#17221f]/90 via-[#17221f]/70 to-[#294235]/65" />
         <a
           href="#home"
+          aria-label="CDAC Mock Test home"
           className="relative z-10 flex items-center gap-3 text-white no-underline"
         >
-          <span className="grid h-9 w-9 place-items-center rounded-xl bg-[#d8f270] text-[#17221f]">
-            <Command size={20} strokeWidth={2.5} />
-          </span>
-          <span className="font-display text-[20px] font-extrabold">
-            cdacmocktest
+          <img className="h-10 w-10 rounded-xl" src="/favicon.svg" alt="" />
+          <span className="flex flex-col leading-none">
+            <span className="font-display text-[19px] font-extrabold">
+              CDAC
+            </span>
+            <span className="mt-1 text-[9px] font-bold uppercase tracking-[1.5px] text-[#d8f270]">
+              Mock Test
+            </span>
           </span>
         </a>
         <div className="relative z-10 max-w-[520px] pb-8">
@@ -215,13 +218,17 @@ export function LoginPage({
         <div className="flex items-center justify-between lg:justify-end">
           <a
             href="#home"
+            aria-label="CDAC Mock Test home"
             className="flex items-center gap-2.5 text-[#17221f] no-underline lg:hidden"
           >
-            <span className="grid h-8 w-8 place-items-center rounded-lg bg-[#d8f270]">
-              <Command size={18} />
-            </span>
-            <span className="font-display text-[17px] font-extrabold">
-              cdacmocktest
+            <img className="h-9 w-9 rounded-lg" src="/favicon.svg" alt="" />
+            <span className="flex flex-col leading-none">
+              <span className="font-display text-[16px] font-extrabold">
+                CDAC
+              </span>
+              <span className="mt-1 text-[8px] font-bold uppercase tracking-[1.3px] text-[#718a42]">
+                Mock Test
+              </span>
             </span>
           </a>
           <div className="flex items-center gap-3">

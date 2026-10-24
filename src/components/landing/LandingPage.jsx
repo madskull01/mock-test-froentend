@@ -5,7 +5,6 @@ import {
   BookOpen,
   Check,
   Clock3,
-  Command,
   FileCheck2,
   GraduationCap,
   Menu,
@@ -66,14 +65,17 @@ export function LandingPage({
         <div className="mx-auto flex h-[72px] max-w-[1240px] items-center justify-between px-5 sm:px-8">
           <a
             href="#home"
-            aria-label="cdacmocktest home"
+            aria-label="CDAC Mock Test home"
             className="flex items-center gap-2.5 no-underline"
           >
-            <span className="grid h-9 w-9 place-items-center rounded-xl bg-[#17221f] text-[#d8f270]">
-              <Command size={19} strokeWidth={2.5} />
-            </span>
-            <span className="font-display text-[19px] font-extrabold tracking-[-0.8px]">
-              cdacmocktest
+            <img className="h-10 w-10 rounded-xl" src="/favicon.svg" alt="" />
+            <span className="flex flex-col leading-none">
+              <span className="font-display text-[18px] font-extrabold tracking-[-0.6px]">
+                CDAC
+              </span>
+              <span className="mt-1 text-[9px] font-bold uppercase tracking-[1.5px] text-[#718a42]">
+                Mock Test
+              </span>
             </span>
           </a>
           <nav
@@ -674,14 +676,17 @@ export function LandingPage({
         <div className="mx-auto flex max-w-[1240px] flex-col gap-7 px-5 py-8 sm:px-8 md:flex-row md:items-center md:justify-between">
           <a
             href="#home"
-            aria-label="cdacmocktest home"
+            aria-label="CDAC Mock Test home"
             className="flex items-center gap-2.5 text-white no-underline"
           >
-            <span className="grid h-8 w-8 place-items-center rounded-lg bg-[#d8f270] text-[#17221f]">
-              <Command size={16} strokeWidth={2.5} />
-            </span>
-            <span className="font-display text-[16px] font-extrabold">
-              cdacmocktest
+            <img className="h-9 w-9 rounded-lg" src="/favicon.svg" alt="" />
+            <span className="flex flex-col leading-none">
+              <span className="font-display text-[16px] font-extrabold">
+                CDAC
+              </span>
+              <span className="mt-1 text-[8px] font-bold uppercase tracking-[1.3px] text-white/60">
+                Mock Test
+              </span>
             </span>
           </a>
           <nav className="flex flex-wrap gap-x-6 gap-y-2 text-[10px] font-semibold text-white/55" aria-label="Footer navigation">

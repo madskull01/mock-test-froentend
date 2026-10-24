@@ -4,7 +4,6 @@ import {
   ArrowUpRight,
   Bell,
   BookOpen,
-  Command,
   CreditCard,
   GraduationCap,
   LayoutDashboard,
@@ -656,11 +655,14 @@ function App() {
             }}
             className="mb-11 flex items-center gap-3 px-2 text-white no-underline"
           >
-            <span className="grid h-9 w-9 place-items-center rounded-xl bg-[#d8f270] text-[#17221f]">
-              <Command size={20} strokeWidth={2.5} />
-            </span>
-            <span className="font-display text-[20px] font-extrabold">
-              cdacmocktest
+            <img className="h-10 w-10 rounded-xl" src="/favicon.svg" alt="" />
+            <span className="flex flex-col leading-none">
+              <span className="font-display text-[18px] font-extrabold">
+                CDAC
+              </span>
+              <span className="mt-1 text-[9px] font-bold uppercase tracking-[1.5px] text-[#d8f270]">
+                Mock Test
+              </span>
             </span>
           </a>
           <p className="mb-3 px-3 text-[10px] font-bold uppercase tracking-[1.7px] text-white/35">

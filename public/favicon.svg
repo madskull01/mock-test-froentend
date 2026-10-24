@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="16" fill="#17221f"/>
-  <path d="M31 19 8 30l23 11 18-8.6V45h4V30L31 19Z" fill="#d8f270"/>
-  <path d="M17 35v10c7 7 21 7 28 0V35l-14 6.7L17 35Z" fill="#d8f270"/>
-  <text x="31" y="57" text-anchor="middle" fill="#fff" font-family="Arial,sans-serif" font-size="12" font-weight="700">CM</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <rect width="128" height="128" rx="28" fill="#17221f"/>
+  <path d="M26 27h76a10 10 0 0 1 10 10v54a10 10 0 0 1-10 10H26a10 10 0 0 1-10-10V37a10 10 0 0 1 10-10Z" fill="#d8f270"/>
+  <text x="64" y="76" text-anchor="middle" fill="#17221f" font-family="Arial,Helvetica,sans-serif" font-size="39" font-weight="800" letter-spacing="-2">CDAC</text>
+  <path d="M40 88h48" stroke="#17221f" stroke-width="5" stroke-linecap="round" opacity=".7"/>
 </svg>
