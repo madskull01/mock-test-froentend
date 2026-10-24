@@ -108,6 +108,36 @@ function App() {
     }
   }, [theme]);
 
+  useEffect(() => {
+    const seoTitle = "CDAC Mock Test 2026 | Practice Aptitude, CSE & Electronics";
+    const seoDescription =
+      "Prepare for CDAC online mock tests with aptitude, computer science, and hardware practice papers, timed exams, and subject-wise progress tracking.";
+
+    document.title = seoTitle;
+
+    const descriptionTag = document.querySelector('meta[name="description"]');
+    if (descriptionTag) {
+      descriptionTag.setAttribute("content", seoDescription);
+    }
+
+    const canonicalTag = document.querySelector('link[rel="canonical"]');
+    if (canonicalTag) {
+      canonicalTag.setAttribute("href", "https://cdacmocktest.com/");
+    }
+
+    const ogTitleTag = document.querySelector('meta[property="og:title"]');
+    if (ogTitleTag) {
+      ogTitleTag.setAttribute("content", seoTitle);
+    }
+
+    const ogDescriptionTag = document.querySelector(
+      'meta[property="og:description"]',
+    );
+    if (ogDescriptionTag) {
+      ogDescriptionTag.setAttribute("content", seoDescription);
+    }
+  }, []);
+
   const loadData = useCallback(async () => {
     setIsLoading(true);
     try {
