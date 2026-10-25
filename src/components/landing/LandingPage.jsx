@@ -17,6 +17,166 @@ import { groupSubjectsBySection } from "../../utils/viewHelpers";
 import { PricingPlans } from "../account/AccountViews";
 import { ThemeToggle } from "../shared/ThemeToggle";
 
+const syllabusSections = [
+  {
+    label: "Section A",
+    title: "Fundamentals",
+    subjects: [
+      {
+        name: "English",
+        topics: [
+          "Synonyms & Antonyms",
+          "Reading Comprehension",
+          "Sentence Completion",
+          "Articles & Prepositions",
+          "Spotting Errors",
+          "Idioms & Phrases",
+          "Active & Passive Voice",
+          "Sentence Arrangement",
+        ],
+      },
+      {
+        name: "Quantitative Aptitude",
+        topics: [
+          "Number System",
+          "Percentage",
+          "Profit & Loss",
+          "Ratio & Proportion",
+          "Time & Work",
+          "Time & Distance",
+          "Simple & Compound Interest",
+          "Averages",
+          "Algebra",
+          "Geometry",
+        ],
+      },
+      {
+        name: "Reasoning",
+        topics: [
+          "Analogy",
+          "Blood Relations",
+          "Direction Sense",
+          "Coding-Decoding",
+          "Series (Number & Letter)",
+          "Sitting Arrangement",
+          "Data Sufficiency",
+        ],
+      },
+      {
+        name: "Computer Fundamentals & Concepts of Programming",
+        topics: [
+          "Basic Computer Concepts",
+          "Software & Hardware",
+          "Number Systems",
+          "Networking Basics",
+          "Computer Security",
+        ],
+      },
+    ],
+  },
+  {
+    label: "Section B",
+    title: "Programming & Systems",
+    subjects: [
+      {
+        name: "C Programming",
+        topics: [
+          "C Basics & Syntax",
+          "Operators & Expressions",
+          "Control Flow",
+          "Functions",
+          "Pointers",
+          "Arrays & Strings",
+          "Structures & Unions",
+          "File Handling",
+          "Memory Management",
+          "Preprocessor Directives",
+        ],
+      },
+      {
+        name: "Data Structures",
+        topics: [
+          "Arrays",
+          "Linked Lists",
+          "Stacks",
+          "Queues",
+          "Trees (Binary, BST, AVL)",
+          "Graphs (BFS, DFS)",
+          "Hashing",
+          "Sorting Algorithms",
+        ],
+      },
+      {
+        name: "Object-Oriented Programming (C++)",
+        topics: [
+          "Classes & Objects",
+          "Inheritance",
+          "Polymorphism",
+          "Encapsulation & Abstraction",
+          "Templates & STL",
+        ],
+      },
+      {
+        name: "Operating Systems & Networking",
+        topics: [
+          "OS Concepts",
+          "Process Management",
+          "Memory Management",
+          "Networking (OSI, TCP/IP)",
+          "File Systems",
+        ],
+      },
+      {
+        name: "Big Data",
+        topics: [
+          "Big Data Fundamentals (5 V's)",
+          "Hadoop Ecosystem",
+          "MapReduce",
+          "NoSQL Databases",
+        ],
+      },
+      {
+        name: "Artificial Intelligence",
+        topics: [
+          "AI Fundamentals",
+          "Machine Learning Basics",
+          "Neural Networks",
+          "Natural Language Processing",
+        ],
+      },
+    ],
+  },
+  {
+    label: "Section C",
+    title: "Computer Architecture & Hardware",
+    subjects: [
+      {
+        name: "Computer Architecture",
+        topics: [
+          "CPU Architecture",
+          "Memory Hierarchy",
+          "I/O Systems",
+          "Addressing Modes",
+        ],
+      },
+      {
+        name: "Digital Electronics",
+        topics: [
+          "Boolean Algebra",
+          "Logic Gates",
+          "Combinational Circuits",
+          "Sequential Circuits",
+          "Number Representation",
+        ],
+      },
+      {
+        name: "Microprocessors",
+        topics: ["8085 & 8086 Architecture", "Assembly Programming", "Interrupts"],
+      },
+    ],
+  },
+];
+
 export function LandingPage({
   tests,
   subjects,
@@ -105,6 +265,7 @@ export function LandingPage({
             <a className="landing-nav-link" href="#home">Home</a>
             <a className="landing-nav-link" href="#practice">Tests</a>
             <a className="landing-nav-link" href="#exam-sections">Exam sections</a>
+            <a className="landing-nav-link" href="#syllabus">Syllabus</a>
             <a className="landing-nav-link" href="#subjects">Subjects</a>
             <a className="landing-nav-link" href="#pricing">Pricing</a>
             <a className="landing-nav-link" href="#free-demo">Free demo</a>
@@ -146,6 +307,7 @@ export function LandingPage({
               ["Home", "#home"],
               ["Tests", "#practice"],
               ["Exam sections", "#exam-sections"],
+              ["Syllabus", "#syllabus"],
               ["Subjects", "#subjects"],
               ["Pricing", "#pricing"],
               ["Free demo", "#free-demo"],
@@ -491,6 +653,159 @@ export function LandingPage({
           </div>
         </section>
 
+        <section
+          id="syllabus"
+          className="mx-auto max-w-[1240px] px-5 py-16 sm:px-8 lg:py-20"
+          aria-labelledby="syllabus-heading"
+        >
+          <div className="max-w-[760px]">
+            <p className="text-[10px] font-bold uppercase tracking-[1.8px] text-[#82906f]">
+              Test sections & syllabus
+            </p>
+            <h2
+              id="syllabus-heading"
+              className="mt-2 font-display text-[28px] font-extrabold tracking-[-1px] sm:text-[34px]"
+            >
+              Explore the CCAT syllabus.
+            </h2>
+            <p className="mt-3 text-[13px] leading-6 text-[#7b887f]">
+              Review the topics covered across Sections A, B, and C, then choose
+              the course category that matches your preparation.
+            </p>
+          </div>
+
+          <div className="mt-8 space-y-6">
+            {syllabusSections.map(({ label, title, subjects }) => (
+              <section
+                key={label}
+                className="rounded-3xl border border-[#e7ebe4] bg-white p-5 sm:p-7"
+                aria-labelledby={`syllabus-${label.replaceAll(" ", "-")}`}
+              >
+                <div className="mb-5 flex flex-wrap items-center gap-3">
+                  <span className="rounded-full bg-[#eff4e8] px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-[1px] text-[#61764a]">
+                    {label}
+                  </span>
+                  <h3
+                    id={`syllabus-${label.replaceAll(" ", "-")}`}
+                    className="font-display text-[19px] font-extrabold text-[#26352d]"
+                  >
+                    {title}
+                  </h3>
+                </div>
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {subjects.map(({ name, topics }) => (
+                    <article
+                      key={name}
+                      className="rounded-2xl border border-[#edf0eb] bg-[#fbfcf9] p-4"
+                    >
+                      <h4 className="text-[13px] font-extrabold leading-5 text-[#26352d]">
+                        {name}
+                      </h4>
+                      <ul className="mt-3 space-y-2">
+                        {topics.map((topic) => (
+                          <li
+                            key={topic}
+                            className="flex gap-2 text-[11px] leading-5 text-[#718078]"
+                          >
+                            <span
+                              aria-hidden="true"
+                              className="mt-2 h-1 w-1 shrink-0 rounded-full bg-[#829b52]"
+                            />
+                            {topic}
+                          </li>
+                        ))}
+                      </ul>
+                    </article>
+                  ))}
+                </div>
+              </section>
+            ))}
+          </div>
+
+          <div className="mt-8 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+            <section
+              className="rounded-3xl bg-[#17221f] p-6 text-white sm:p-7"
+              aria-labelledby="course-categories-heading"
+            >
+              <p className="text-[10px] font-bold uppercase tracking-[1.6px] text-[#d8f270]">
+                Course categories
+              </p>
+              <h3
+                id="course-categories-heading"
+                className="mt-2 font-display text-[20px] font-extrabold"
+              >
+                Choose your test combination
+              </h3>
+              <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+                {[
+                  {
+                    category: "Section A + B",
+                    detail: "100 questions · 300 marks · 120 minutes",
+                  },
+                  {
+                    category: "Section A + B + C",
+                    detail: "150 questions · 450 marks · 180 minutes",
+                  },
+                ].map(({ category, detail }) => (
+                  <div
+                    key={category}
+                    className="rounded-2xl border border-white/10 bg-white/[0.06] p-4"
+                  >
+                    <h4 className="text-[12px] font-extrabold text-[#d8f270]">
+                      {category}
+                    </h4>
+                    <p className="mt-2 text-[11px] leading-5 text-white/70">
+                      {detail}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section
+              className="rounded-3xl border border-[#e7ebe4] bg-white p-6 sm:p-7"
+              aria-labelledby="exam-notes-heading"
+            >
+              <p className="text-[10px] font-bold uppercase tracking-[1.6px] text-[#82906f]">
+                Important notes
+              </p>
+              <h3
+                id="exam-notes-heading"
+                className="mt-2 font-display text-[20px] font-extrabold text-[#26352d]"
+              >
+                Know the exam format
+              </h3>
+              <ul className="mt-4 grid gap-x-6 gap-y-3 sm:grid-cols-2">
+                {[
+                  "The medium of the CCAT examination is English only.",
+                  "Candidates appear for sections as per their selected course category.",
+                  "Each section has objective-type questions with four options.",
+                  "A wrong answer carries a -1 mark penalty.",
+                  "There is no negative marking for unattempted questions.",
+                  "Questions can be attempted in any order within a section.",
+                ].map((note) => (
+                  <li
+                    key={note}
+                    className="flex gap-2.5 text-[11px] leading-5 text-[#718078]"
+                  >
+                    <Check
+                      size={14}
+                      aria-hidden="true"
+                      className="mt-0.5 shrink-0 text-[#718a42]"
+                    />
+                    {note}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          </div>
+          <p className="mt-5 text-[10px] leading-5 text-[#89948c]">
+            Exam pattern and syllabus details are provided for preparation.
+            Please check the latest official CDAC admission information for
+            updates and course-specific requirements.
+          </p>
+        </section>
+
         <section id="practice" className="bg-[#edf1e9]">
           <div className="mx-auto max-w-[1240px] px-5 py-16 sm:px-8 lg:py-20">
             <div className="flex flex-wrap items-end justify-between gap-4">
@@ -780,6 +1095,7 @@ export function LandingPage({
           </a>
           <nav className="flex flex-wrap gap-x-6 gap-y-2 text-[10px] font-semibold text-white/55" aria-label="Footer navigation">
             <a className="transition hover:text-white" href="#practice">Tests</a>
+            <a className="transition hover:text-white" href="#syllabus">Syllabus</a>
             <a className="transition hover:text-white" href="#subjects">Subjects</a>
             <a className="transition hover:text-white" href="#pricing">Pricing</a>
             <a className="transition hover:text-white" href="#free-demo">Free demo</a>

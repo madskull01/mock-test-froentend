@@ -1,7 +1,7 @@
 {
   "name": "CDAC Mock Test",
   "short_name": "CDAC Test",
-  "description": "CDAC mock tests for aptitude, computer science, and electronics preparation.",
+  "description": "CDAC mock test for aptitude, computer science, and electronics preparation.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#17221f",
