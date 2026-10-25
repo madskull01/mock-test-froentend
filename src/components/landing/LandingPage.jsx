@@ -722,50 +722,10 @@ export function LandingPage({
             ))}
           </div>
 
-          <div className="mt-8 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
-            <section
-              className="rounded-3xl bg-[#17221f] p-6 text-white sm:p-7"
-              aria-labelledby="course-categories-heading"
-            >
-              <p className="text-[10px] font-bold uppercase tracking-[1.6px] text-[#d8f270]">
-                Course categories
-              </p>
-              <h3
-                id="course-categories-heading"
-                className="mt-2 font-display text-[20px] font-extrabold"
-              >
-                Choose your test combination
-              </h3>
-              <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-                {[
-                  {
-                    category: "Section A + B",
-                    detail: "100 questions · 300 marks · 120 minutes",
-                  },
-                  {
-                    category: "Section A + B + C",
-                    detail: "150 questions · 450 marks · 180 minutes",
-                  },
-                ].map(({ category, detail }) => (
-                  <div
-                    key={category}
-                    className="rounded-2xl border border-white/10 bg-white/[0.06] p-4"
-                  >
-                    <h4 className="text-[12px] font-extrabold text-[#d8f270]">
-                      {category}
-                    </h4>
-                    <p className="mt-2 text-[11px] leading-5 text-white/70">
-                      {detail}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            <section
-              className="rounded-3xl border border-[#e7ebe4] bg-white p-6 sm:p-7"
-              aria-labelledby="exam-notes-heading"
-            >
+          <section
+            className="mt-8 rounded-3xl border border-[#e7ebe4] bg-white p-6 sm:p-7"
+            aria-labelledby="exam-notes-heading"
+          >
               <p className="text-[10px] font-bold uppercase tracking-[1.6px] text-[#82906f]">
                 Important notes
               </p>
@@ -797,8 +757,7 @@ export function LandingPage({
                   </li>
                 ))}
               </ul>
-            </section>
-          </div>
+          </section>
           <p className="mt-5 text-[10px] leading-5 text-[#89948c]">
             Exam pattern and syllabus details are provided for preparation.
             Please check the latest official CDAC admission information for
